@@ -45,11 +45,11 @@ class CheckerController extends AbstractController
 
         $word = $jsonContent['word'];
 
-        if (!$this->checkerService->isPalindrome($jsonContent['word'])) {
-            return $this->buildResponse("The word: '" . $word . "' is NOT a palindrome.", false, JsonResponse::HTTP_OK);
+        if (!$this->checkerService->isPalindrome($word)) {
+            return $this->buildResponse("The word: '$word' is NOT a palindrome.", false, JsonResponse::HTTP_OK);
         }
 
-        return $this->buildResponse("The word: '" . $word . "' is a palindrome.", true, JsonResponse::HTTP_OK);
+        return $this->buildResponse("The word: '$word' is a palindrome.", true, JsonResponse::HTTP_OK);
     }
 
     /**
@@ -79,10 +79,10 @@ class CheckerController extends AbstractController
         $comparison = $jsonContent['comparison'];
 
         if (!$this->checkerService->isAnagram($word, $comparison)) {
-            return $this->buildResponse("The word: '" . $word . "' is NOT an anagram of {$comparison}.", false, JsonResponse::HTTP_OK);
+            return $this->buildResponse("The word: '$word' is NOT an anagram of '$comparison'.", false, JsonResponse::HTTP_OK);
         }
 
-        return $this->buildResponse("The word: '" . $word . "' is an anagram of {$comparison}.", true, JsonResponse::HTTP_OK);
+        return $this->buildResponse("The word: '$word' is an anagram of '$comparison'.", true, JsonResponse::HTTP_OK);
     }
 
 
@@ -102,7 +102,7 @@ class CheckerController extends AbstractController
             $jsonContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\Exception $exception) {
             //We can also log the error here
-            return $this->buildResponse("Please ensure you provide a valid JSON payload. Failed with error {$exception->getMessage()}", false, JsonResponse::HTTP_BAD_REQUEST);
+            return $this->buildResponse("Please ensure you provide a valid JSON payload. Failed with error '{$exception->getMessage()}'", false, JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // Check if the Content provided in the api call is valid and contains the 'phrase' index
@@ -112,11 +112,11 @@ class CheckerController extends AbstractController
 
         $phrase = $jsonContent['phrase'];
 
-        if (!$this->checkerService->isPangram($jsonContent['phrase'])) {
-            return $this->buildResponse("The phrase: '" . $phrase . "' is NOT a pangram.", false, JsonResponse::HTTP_OK);
+        if (!$this->checkerService->isPangram($phrase)) {
+            return $this->buildResponse("The phrase: '$phrase' is NOT a pangram.", false, JsonResponse::HTTP_OK);
         }
 
-        return $this->buildResponse("The phrase: '" . $phrase . "' is a pangram.", true, JsonResponse::HTTP_OK);
+        return $this->buildResponse("The phrase: '$phrase' is a pangram.", true, JsonResponse::HTTP_OK);
     }
 
     /**
