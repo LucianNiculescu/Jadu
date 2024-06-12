@@ -85,6 +85,40 @@ class CheckerController extends AbstractController
         return $this->buildResponse("The word: '" . $word . "' is an anagram of {$comparison}.", true, JsonResponse::HTTP_OK);
     }
 
+
+
+    /**
+     * Validates if the provided phrase is a pangram.
+     *  Request body should be a JSON object with a 'phrase' key.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    #[Route('/validate/pangram', name: 'validate pangram', methods: ['POST'])]
+    public function pangram(Request $request): JsonResponse
+    {
+        try {
+            $jsonContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $exception) {
+            //We can also log the error here
+            return $this->buildResponse("Please ensure you provide a valid JSON payload. Failed with error {$exception->getMessage()}", false, JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        // Check if the Content provided in the api call is valid and contains the 'phrase' index
+        if (!isset($jsonContent['phrase'])) {
+            return $this->buildResponse("Please ensure you provide a 'phrase' key index.", false, JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $phrase = $jsonContent['phrase'];
+
+        if (!$this->checkerService->isPangram($jsonContent['phrase'])) {
+            return $this->buildResponse("The phrase: '" . $phrase . "' is NOT a pangram.", false, JsonResponse::HTTP_OK);
+        }
+
+        return $this->buildResponse("The phrase: '" . $phrase . "' is a pangram.", true, JsonResponse::HTTP_OK);
+    }
+
     /**
      * Builds a JsonResponse with a string as message, a boolean indicating if the parameter(s) matched the called check function and an integer determining the HTTP Status Code.
      *
