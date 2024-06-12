@@ -9,3 +9,5 @@
 + Created the Controller, Service and Interface that will be used for future API Calls
 + Added the logic for the `isPalindrome()`
 + Added Unit Testing for the Service and Controller with the `isPalindrome()` public function 
++ Added the logic for the `isAnagram()`
++ Added Unit Testing for the Service and Controller with the `isAnagram()` public function

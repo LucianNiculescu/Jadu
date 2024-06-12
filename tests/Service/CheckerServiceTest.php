@@ -21,7 +21,7 @@ final class CheckerServiceTest extends TestCase
      * @group unit
      * @covers ::isPalindrome
      */
-    public function testIsPalindrome()
+    public function testIsPalindrome(): void
     {
         $result = $this->instance->isPalindrome('anna');
         $this->assertTrue($result);
@@ -34,9 +34,32 @@ final class CheckerServiceTest extends TestCase
      * @group unit
      * @covers ::isPalindrome
      */
-    public function testIsPalindromeWithNonAlphabeticalData()
+    public function testIsPalindromeWithNonAlphabeticalData(): void
     {
         $result = $this->instance->isPalindrome('a14n£$%3n1a');
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @group unit
+     * @covers ::isAnagram
+     */
+    public function testIsAnagram(): void
+    {
+        $result = $this->instance->isAnagram('coalface', 'cacao elf');
+        $this->assertTrue($result);
+
+        $result = $this->instance->isAnagram('coalface', 'dark elf');
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @group unit
+     * @covers ::isAnagram
+     */
+    public function testIsAnagramNonAlphabeticalData(): void
+    {
+        $result = $this->instance->isAnagram('coa1$lf a c e', 'c1 aca!o elf');
         $this->assertTrue($result);
     }
 

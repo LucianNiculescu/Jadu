@@ -35,7 +35,10 @@ class CheckerService implements CheckerInterface
      */
     public function isAnagram(string $word, string $comparison): bool
     {
-        return true;
+        $word = $this->validate($word);
+        $comparison = $this->validate($comparison);
+
+        return count_chars($word, 1) === count_chars($comparison, 1);
     }
 
     /**
