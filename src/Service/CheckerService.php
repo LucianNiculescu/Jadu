@@ -44,14 +44,18 @@ class CheckerService implements CheckerInterface
     /**
      * A Pangram for a given alphabet is a sentence using every letter of the alphabet at least once.
      *
-     *
      * @param string $phrase
      *
      * @return bool
      */
     public function isPangram(string $phrase): bool
     {
-        return true;
+        $phrase = $this->validate($phrase);
+        $characterSet = str_split($phrase);
+        $characterSet = array_unique($characterSet);
+        $characterSet = array_intersect($characterSet, self::ALPHABET);
+
+        return count($characterSet) === count(self::ALPHABET);
     }
 
     /**
