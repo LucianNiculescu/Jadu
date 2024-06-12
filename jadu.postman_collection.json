@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "7eb21d9b-1738-485f-b91b-4cbc7805f8a8",
+		"name": "jadu",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1167864"
+	},
+	"item": [
+		{
+			"name": "palindrome",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"word\": \"anna\"\r\n}\r\n// {\r\n//     \"word\": \"Bark\"\r\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/validate/palindrome",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"validate",
+						"palindrome"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "anagram",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"word\": \"coalface\",\r\n    \"comparison\": \"cacao elf\"\r\n}\r\n// {\r\n//     \"word\": \"coalface\",\r\n//     \"comparison\": \"dark elf\"\r\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/validate/anagram",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"validate",
+						"anagram"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pangram",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phrase\": \"The quick brown fox jumps over the lazy dog\"\r\n}\r\n// {\r\n//     \"phrase\": \"The British Broadcasting Corporation (BBC) is a British public service broadcaster.\"\r\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/validate/pangram",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"validate",
+						"pangram"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "localhost"
+		},
+		{
+			"key": "port",
+			"value": "8080"
+		}
+	]
+}
