@@ -6,6 +6,11 @@ use App\Service\CheckerInterface;
 
 class CheckerService implements CheckerInterface
 {
+    private const ALPHABET = [
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+    ];
+
     /**
      * A palindrome is a word, phrase, number, or other sequence of characters which reads the same backward or forward.
      *
@@ -15,7 +20,9 @@ class CheckerService implements CheckerInterface
      */
     public function isPalindrome(string $word): bool
     {
-        return true;
+        $word = $this->validate($word);
+
+        return $word === strrev($word);
     }
 
     /**
@@ -42,5 +49,28 @@ class CheckerService implements CheckerInterface
     public function isPangram(string $phrase): bool
     {
         return true;
+    }
+
+    /**
+     * Validates the string to ensure we do not have special characters
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    protected function validate(string $string): string
+    {
+        // Transform all the characters to lowercase
+        $string = strtolower($string);
+
+        // Remove all non-alphabetic characters from the string
+        $validatedString = '';
+        foreach(str_split($string) as $character) {
+            if(in_array($character, self::ALPHABET, true)) {
+                $validatedString .= $character;
+            }
+        }
+
+        return $validatedString;
     }
 }

@@ -27,17 +27,20 @@ class CheckerController extends AbstractController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @throws \JsonException
      */
-    #[Route('/validate/palindrome', name: 'check palindrome', methods: ['POST'])]
+    #[Route('/validate/palindrome', name: 'validate palindrome', methods: ['POST'])]
     public function palindrome(Request $request): JsonResponse
     {
-        $jsonContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $jsonContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $exception) {
+            //We can also log the error here
+            return $this->buildResponse("Please ensure you provide a valid JSON payload. Failed with error {$exception->getMessage()}", false, JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         // Check if the Content provided in the api call is valid and contains the 'word' index
-        if ($jsonContent === null || !isset($jsonContent['word'])) {
-            return $this->buildResponse("Please ensure you provide a valid JSON payload with a 'word' key.", false, JsonResponse::HTTP_BAD_REQUEST);
+        if (!isset($jsonContent['word'])) {
+            return $this->buildResponse("Please ensure you provide a 'word' key index.", false, JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $word = $jsonContent['word'];
