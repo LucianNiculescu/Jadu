@@ -63,9 +63,59 @@ final class CheckerControllerTest extends WebTestCase
         $this->assertFalse($body['success']);
     }
 
+    /**
+     * @group integration
+     * @covers ::anagram
+     * @throws \JsonException
+     */
+    public function testAnagramIntegration()
+    {
+
+        // Valid anagram
+        $response = $this->makeRequest('POST', '/validate/anagram', ['word' => 'coalface', 'comparison' => 'cacao elf']);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $body = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertTrue($body['success']);
+
+        // Invalid anagram
+        $response = $this->makeRequest('POST', '/validate/anagram', ['word' => 'coalface', 'comparison' => 'dark elf']);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $body = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertFalse($body['success']);
+    }
+
+    /**
+     * @group integration
+     * @covers ::anagram
+     * @throws \JsonException
+     */
+    public function testAnagramInvalidRequestIntegration()
+    {
+        // Invalid request method
+        $response = $this->makeRequest('GET', '/validate/anagram', ['phrase' => 'The quick brown fox jumps over the lazy dog']);
+        $this->assertEquals(405, $response->getStatusCode());
+
+        // Missing required JSON keys
+        $response = $this->makeRequest('POST', '/validate/anagram', ['catchphrase' => 'The quick brown fox jumps over the lazy dog']);
+        $this->assertEquals(400, $response->getStatusCode());
+        $body = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertFalse($body['success']);
+
+        // Invalid request body
+        $response = $this->makeRequest('POST', '/validate/anagram', '', false);
+        $this->assertEquals(400, $response->getStatusCode());
+        $body = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertFalse($body['success']);
+    }
+
+    /**
+     * @throws \JsonException
+     */
     private function makeRequest(string $method, string $uri, $data, bool $parseJsonBody = true): Response
     {
-        $this->client->request($method, $uri, [], [], [], $parseJsonBody ? json_encode($data) : $data);
+        $this->client->request($method, $uri, [], [], [], $parseJsonBody ? json_encode($data, JSON_THROW_ON_ERROR) : $data);
         return $this->client->getResponse();
     }
 }
